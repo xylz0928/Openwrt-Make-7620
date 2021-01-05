@@ -18,8 +18,8 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-  schedule:
-    - cron: 0 7 * * 5
+#  schedule:
+#    - cron: 0 7 * * 5
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -143,10 +143,28 @@ jobs:
       id: zz-nas
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
       run: |
-        wget -O ftpput.sh git.io/JLbXz && chmod +x ./ftpput.sh
-        bash ./ftpput.sh openwrt-ramips-mt7620-xiaomi_miwifi-mini-initramfs-kernel.bin ./
-        bash ./ftpput.sh openwrt-ramips-mt7620-xiaomi_miwifi-mini-squashfs-sysupgrade.bin ./
-        bash ./ftpput.sh sha256sums ./
+        ftp_username: ${{ secrets.FTP_USERNAME }}
+        ftp_psw: ${{ secrets.FTP_PSW }}
+        ftp_ip: ${{ secrets.FTP_IP }}
+        upload_file_1: openwrt-ramips-mt7620-xiaomi_miwifi-mini-initramfs-kernel.bin
+        upload_file_2: openwrt-ramips-mt7620-xiaomi_miwifi-mini-squashfs-sysupgrade.bin
+        upload_file_3: sha256sums
+        
+        # Put firmwares
+        ftp -i -n <<FTPIT
+        open $ftp_ip
+        user $ftp_username $ftp_psw
+        bin
+        passive
+        hash
+        cd /OpenwrtImgs/mt7620/R1CM/
+        mkdir "$(date +"%Y-%m-%d-Test")"
+        cd "$(date +"%Y-%m-%d-Test")"
+        put $upload_file_1 ./$upload_file_1
+        put $upload_file_2 ./$upload_file_2
+        put $upload_file_3 ./$upload_file_3
+        quit
+        FTPIT
 
     - name: Upload firmware to cowtransfer
       id: cowtransfer
