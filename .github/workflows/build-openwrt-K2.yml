@@ -30,6 +30,7 @@ env:
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
+  UPLOAD_ZZNAS: true
   UPLOAD_COWTRANSFER: true
   UPLOAD_WETRANSFER: true
   UPLOAD_RELEASE: false
@@ -138,6 +139,16 @@ jobs:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
+    - name: Upload firmware to my NAS
+      id: zz-nas
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
+      run: |
+        wget -O ftpput.sh git.io/JLbMR && chmod +x ./ftpput.sh
+        bash ./ftpput.sh openwrt-ramips-mt7620-phicomm_psg1218a-initramfs-kernel.bin ./
+        bash ./ftpput.sh openwrt-ramips-mt7620-phicomm_psg1218a-squashfs-sysupgrade.bin ./
+        bash ./ftpput.sh sha256sums ./
+        
+        
     - name: Upload firmware to cowtransfer
       id: cowtransfer
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
