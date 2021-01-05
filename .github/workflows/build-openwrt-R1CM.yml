@@ -143,6 +143,7 @@ jobs:
       id: zz-nas
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
       run: |
+        cd openwrt/bin/targets/*/*
         wget -O ftpput.sh git.io/JLbXz && chmod +x ./ftpput.sh
         bash ./ftpput.sh openwrt-ramips-mt7620-xiaomi_miwifi-mini-initramfs-kernel.bin ./
         bash ./ftpput.sh openwrt-ramips-mt7620-xiaomi_miwifi-mini-squashfs-sysupgrade.bin ./
