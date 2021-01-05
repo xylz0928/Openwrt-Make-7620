@@ -165,6 +165,7 @@ jobs:
         put $upload_file_3 ./$upload_file_3
         quit
         FTPIT
+        echo "Uploaded to ZZ-NAS"
 
     - name: Upload firmware to cowtransfer
       id: cowtransfer
