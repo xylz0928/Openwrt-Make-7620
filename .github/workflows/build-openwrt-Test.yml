@@ -142,15 +142,14 @@ jobs:
     - name: Upload firmware to my NAS
       id: zz-nas
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
-      run: |
+      env:
         ftp_username: ${{ secrets.FTP_USERNAME }}
         ftp_psw: ${{ secrets.FTP_PSW }}
         ftp_ip: ${{ secrets.FTP_IP }}
         upload_file_1: openwrt-ramips-mt7620-xiaomi_miwifi-mini-initramfs-kernel.bin
         upload_file_2: openwrt-ramips-mt7620-xiaomi_miwifi-mini-squashfs-sysupgrade.bin
         upload_file_3: sha256sums
-        
-        # Put firmwares
+      run: |
         cd openwrt/bin/targets/*/*
         ftp -i -n <<FTPIT
         open $ftp_ip
