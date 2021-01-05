@@ -37,7 +37,8 @@ passive
 hash
 
 cd /OpenwrtImgs/mt7620/R1CM/
-mkdir "$(date +"%Y-%m-%d")" && cd "$(date +"%Y-%m-%d")"
+mkdir "$(date +"%Y-%m-%d")"
+cd "$(date +"%Y-%m-%d")"
 
 put $FULLNAME $DESTFILE
 
