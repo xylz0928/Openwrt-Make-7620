@@ -151,6 +151,7 @@ jobs:
         upload_file_3: sha256sums
         
         # Put firmwares
+        cd openwrt/bin/targets/*/*
         ftp -i -n <<FTPIT
         open $ftp_ip
         user $ftp_username $ftp_psw
