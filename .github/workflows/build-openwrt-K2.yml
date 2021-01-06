@@ -169,7 +169,7 @@ jobs:
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
-        wget -O ftpput.sh git.io/FTPPut && chmod+x ./ftpput.sh
+        wget -O ftpput.sh git.io/FTPPut && chmod +x ./ftpput.sh
         bash ftpput.sh $ftp_ip $ftp_username $ftp_psw $TargetPath $upload_file_1 ./ > ftp.log 2>&1 &
         sleep 20
         echo "::warning $upload_file_1 Sent to ZZ-NAS"
