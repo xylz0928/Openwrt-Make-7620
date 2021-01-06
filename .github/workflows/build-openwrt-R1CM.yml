@@ -35,6 +35,13 @@ env:
   UPLOAD_WETRANSFER: true
   UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
+  ftp_username: ${{ secrets.FTP_USERNAME }}
+  ftp_psw: ${{ secrets.FTP_PSW }}
+  ftp_ip: ${{ secrets.FTP_IP }}
+  TargetPath: /OpenwrtImgs/mt7620/R1CM/
+  upload_file_1: openwrt-ramips-mt7620-xiaomi_miwifi-mini-initramfs-kernel.bin
+  upload_file_2: openwrt-ramips-mt7620-xiaomi_miwifi-mini-squashfs-sysupgrade.bin
+  upload_file_3: sha256sums
 
 jobs:
   build:
@@ -139,16 +146,6 @@ jobs:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: Upload firmware to my NAS
-      id: zz-nas
-      if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
-      run: |
-        cd openwrt/bin/targets/*/*
-        wget -O ftpput.sh git.io/JLbXz && chmod +x ./ftpput.sh
-        bash ./ftpput.sh openwrt-ramips-mt7620-xiaomi_miwifi-mini-initramfs-kernel.bin ./
-        bash ./ftpput.sh openwrt-ramips-mt7620-xiaomi_miwifi-mini-squashfs-sysupgrade.bin ./
-        bash ./ftpput.sh sha256sums ./
-
     - name: Upload firmware to cowtransfer
       id: cowtransfer
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
@@ -166,6 +163,27 @@ jobs:
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
         echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
+
+    - name: Upload firmware to my NAS
+      id: zz-nas
+      if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
+      run: |
+        cd openwrt/bin/targets/*/*
+        ftp -i -n <<FTPIT
+        open $ftp_ip
+        user $ftp_username $ftp_psw
+        bin
+        passive
+        hash
+        cd $TargetPath
+        mkdir "$(date +"%Y-%m-%d-Test")"
+        cd "$(date +"%Y-%m-%d-Test")"
+        put $upload_file_1 ./$upload_file_1
+        put $upload_file_2 ./$upload_file_2
+        put $upload_file_3 ./$upload_file_3
+        quit
+        FTPIT
+        echo "Uploaded to ZZ-NAS"
 
     - name: Generate release tag
       id: tag
