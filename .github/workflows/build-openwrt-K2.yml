@@ -180,7 +180,7 @@ jobs:
         sleep 20
         echo "::warning $upload_file_3 Sent to ZZ-NAS"
         sleep 600
-        killall ftp
+        killall -9 ftp
         echo "::warning All Released Files Uploaded to ZZ-NAS"
 
     - name: Generate release tag
