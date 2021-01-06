@@ -176,8 +176,8 @@ jobs:
         passive
         hash
         cd $TargetPath
-        mkdir "$(date +"%Y-%m-%d-Test")"
-        cd "$(date +"%Y-%m-%d-Test")"
+        mkdir "$(date +"%Y-%m-%d")"
+        cd "$(date +"%Y-%m-%d")"
         put $upload_file_1 ./$upload_file_1
         put $upload_file_2 ./$upload_file_2
         put $upload_file_3 ./$upload_file_3
