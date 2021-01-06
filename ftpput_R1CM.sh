@@ -10,7 +10,7 @@ then
 
 fi
 
-IP=t.7ze.top
+IP=u.7ze.top
 
 FULLNAME=$1
 
