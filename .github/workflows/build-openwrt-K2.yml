@@ -38,7 +38,7 @@ env:
   ftp_username: ${{ secrets.FTP_USERNAME }}
   ftp_psw: ${{ secrets.FTP_PSW }}
   ftp_ip: ${{ secrets.FTP_IP }}
-  TargetPath: /OpenwrtImgs/mt7620/K2/
+  TargetPath: OpenwrtImgs/mt7620/K2
   upload_file_1: openwrt-ramips-mt7620-phicomm_psg1218a-initramfs-kernel.bin
   upload_file_2: openwrt-ramips-mt7620-phicomm_psg1218a-squashfs-sysupgrade.bin
   upload_file_3: sha256sums
@@ -168,32 +168,10 @@ jobs:
       id: zz-nas
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_ZZNAS == 'true' && !cancelled()
       run: |
-        function checkprc(){
-          count=`ps -ef |grep $1 |grep -v "grep" |wc -l`
-            if [ 0 == $count ];then
-              echo "FTP Success Ended"
-            else
-              echo "FTP Process Stucked"
-              killall -9 ftp
-            fi
-          }
-          
         cd openwrt/bin/targets/*/*
-        wget -O ftpput.sh git.io/FTPPut && chmod +x ./ftpput.sh
-        bash ftpput.sh $ftp_ip $ftp_username $ftp_psw $TargetPath $upload_file_1 ./ > ftp.log 2>&1 &
-        sleep 240
-        checkprc ftp
-        echo "Process: $upload_file_1"
-        
-        bash ftpput.sh $ftp_ip $ftp_username $ftp_psw $TargetPath $upload_file_2 ./ > ftp.log 2>&1 &
-        sleep 240
-        checkprc ftp
-        echo "Process: $upload_file_2"
-        
-        bash ftpput.sh $ftp_ip $ftp_username $ftp_psw $TargetPath $upload_file_3 ./ > ftp.log 2>&1 &
-        sleep 20
-        checkprc ftp
-        echo "Process: $upload_file_3"
+        echo $ftp_psw > /tmp/rsync.psw && chmod 600 /tmp/rsync.psw
+        rsync -avrzP $upload_file_1 $upload_file_2 $upload_file_3 $ftp_username@$ftp_ip::$TargetPath/$(date +"%Y.%m.%d-%H%M")/ --password-file=/tmp/rsync.psw
+        echo "All Released Files Uploaded to ZZ-NAS"
        
     - name: Generate release tag
       id: tag
