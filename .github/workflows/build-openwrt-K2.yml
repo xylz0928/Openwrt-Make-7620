@@ -191,6 +191,7 @@ jobs:
         echo "Process: $upload_file_2"
         
         bash ftpput.sh $ftp_ip $ftp_username $ftp_psw $TargetPath $upload_file_3 ./ > ftp.log 2>&1 &
+        sleep 20
         checkprc ftp
         echo "Process: $upload_file_3"
        
