@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt-R1CM
+name: Build OpenWrt-Test
 
 on:
   repository_dispatch:
