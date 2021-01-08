@@ -72,8 +72,8 @@ jobs:
       id: zz-nas
       run: |
         send_title="**${model}** ${send_content}"
-        send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${send_title}\",\"text\":\"${nowtime}\"}}'"
         send_content="编译成功，<font color=#FF6666>正在上传固件到NAS...</font>"
+        send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${send_title}\",\"text\":\"${nowtime}\"}}'"
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
         echo $send_dingding
         eval $send_dingding
