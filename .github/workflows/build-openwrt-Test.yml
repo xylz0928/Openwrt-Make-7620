@@ -82,8 +82,7 @@ jobs:
 
     - name: Check space usage
       if: (!cancelled())
-      run: |
-        df -hT
+      run: df -hT
         
     - name: Upload firmware to my NAS
       id: zz-nas
