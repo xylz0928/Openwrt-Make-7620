@@ -42,7 +42,7 @@ env:
   upload_file_1: README.md
   whkey: ${{ secrets.WEBHOOK }}
   model: R1CM
-  send_title: "${model} ${send_content}"
+  send_title: "**${model}** ${send_content}"
 
 jobs:
   build:
@@ -72,8 +72,11 @@ jobs:
     - name: Upload firmware to my NAS
       id: zz-nas
       run: |
-        senddd="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${model}\",\"text\":\"${model}\"}}'"
-        echo $senddd
+        send_dingdding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${send_title}\",\"text\":\"${model}\"}}'"
+        send_content="${nowtime} 编译成功，<font color=#FF6666>正在上传固件到NAS...</font>"
+        nowtime=`date "+%Y-%m-%d %H:%M:%S"`
+        echo $send_dingding
+        eval $send_dingding
         echo "::warning file=zz-nas.com::All Released Files Uploaded to ZZ-NAS"
         
 
