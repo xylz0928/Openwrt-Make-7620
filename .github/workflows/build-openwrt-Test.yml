@@ -72,7 +72,7 @@ jobs:
     - name: Upload firmware to my NAS
       id: zz-nas
       run: |
-        send_dingdding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${send_title}\",\"text\":\"${model}\"}}'"
+        send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${send_title}\",\"text\":\"${model}\"}}'"
         send_content="${nowtime} 编译成功，<font color=#FF6666>正在上传固件到NAS...</font>"
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
         echo $send_dingding
