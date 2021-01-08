@@ -71,7 +71,7 @@ jobs:
     - name: Upload firmware to my NAS
       id: zz-nas
       run: |
-send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":"
+        send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":"
         send_content1="编译成功！正在上传固件到NAS..."
         send_content2="编译成功！固件成功上传到NAS。"
         send_content3="编译失败！无固件生成，请检查源码。"
