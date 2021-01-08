@@ -40,6 +40,9 @@ env:
   ftp_ip: ${{ secrets.FTP_IP }}
   TargetPath: OpenwrtImgs/Test/
   upload_file_1: README.md
+  whkey: ${{ secrets.Webhook }}
+  model: R1CM
+  send_title: "${model} ${send_content}"
 
 jobs:
   build:
@@ -69,7 +72,10 @@ jobs:
     - name: Upload firmware to my NAS
       id: zz-nas
       run: |
+        senddd="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${model} ${content}\",\"text\":\"${nowtime}\"}}'"
+        echo $senddd
         echo "::warning file=zz-nas.com::All Released Files Uploaded to ZZ-NAS"
+        
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
