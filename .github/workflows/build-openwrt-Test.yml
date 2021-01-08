@@ -79,10 +79,6 @@ jobs:
         echo "编译开始"
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
         eval "$send_dingding \"${send_content_start}\",\"text\":\"${nowtime} $markdown_splitline #### ${send_content_start}\n\n[点此链接查看](${GITHUB_WORKFLOW_URL})\"}}'"
-        eval "$send_dingding \"${send_content2}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#92D050>${send_content2}</font>\n\n[点此链接查看](${GITHUB_WORKFLOW_URL})\"}}'"
-        eval "$send_dingding \"${send_content3}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#FF6666>${send_content3}</font>\n\n[点此链接查看](${GITHUB_WORKFLOW_URL})\"}}'"
-
-
 
     - name: Check space usage
       if: (!cancelled())
@@ -90,6 +86,7 @@ jobs:
         df -hT
         sleep 5
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
+        echo $send_dingding
         eval "$send_dingding \"${content_UpWe}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#92D050>${content_UpWe}</font>\n\n[点此链接查看](${GITHUB_WORKFLOW_URL})\"}}'"
 
     - name: Upload firmware to my NAS
