@@ -73,12 +73,11 @@ jobs:
       run: |
         send_title="**${model}** ${send_content}"
         send_content="编译成功，<font color=#FF6666>正在上传固件到NAS...</font>"
-        send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${send_title}\",\"text\":\"${nowtime}\"}}'"
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
+        send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":\"${send_title}\",\"text\":\"${nowtime}\"}}'"
+        echo "::warning file=zz-nas.com::All Released Files Uploaded to ZZ-NAS"
         echo $send_dingding
         eval $send_dingding
-        echo "::warning file=zz-nas.com::All Released Files Uploaded to ZZ-NAS"
-        
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
