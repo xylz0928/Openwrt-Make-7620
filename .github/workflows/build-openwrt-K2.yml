@@ -173,6 +173,7 @@ jobs:
         send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":"
         send_content1="【${model}】编译成功！正在上传固件到NAS..."
         send_content2="【${model}】编译成功！固件成功上传到NAS。"
+        GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
         markdown_splitline="\n\n---\n\n"
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
         eval "$send_dingding \"${send_content1}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#6A65FF>${send_content1}</font>\n\n[点此链接查看](${GITHUB_WORKFLOW_URL})\"}}'"
