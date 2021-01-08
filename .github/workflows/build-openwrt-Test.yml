@@ -25,7 +25,8 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: MakeMenu.R1CM.config
+  model: R1CM
+  CONFIG_FILE: MakeMenu.$model.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -41,7 +42,7 @@ env:
   TargetPath: OpenwrtImgs/Test/
   upload_file_1: README.md
   whkey: ${{ secrets.WEBHOOK }}
-  model: R1CM
+  
 
 jobs:
   build:
@@ -78,7 +79,7 @@ jobs:
         markdown_splitline="\n\n---\n\n"
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
         echo "::warning file=zz-nas.com::All Released Files Uploaded to ZZ-NAS"
-        eval "$send_dingding \"${send_content1}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#6A65FF>${send_content1}</font>\"}}'"
+        eval "$send_dingding \"${send_content1}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#6A65FF>${send_content1}${CONFIG_FILE}</font>\"}}'"
         eval "$send_dingding \"${send_content2}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#92D050>${send_content2}</font>\"}}'"
         eval "$send_dingding \"${send_content3}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#FF6666>${send_content3}</font>\"}}'"
 
