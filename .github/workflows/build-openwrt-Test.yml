@@ -72,15 +72,15 @@ jobs:
       id: zz-nas
       run: |
         send_dingding="curl -s \"https://oapi.dingtalk.com/robot/send?access_token=${whkey}\" -H 'Content-Type: application/json' -d '{\"msgtype\": \"markdown\",\"markdown\": {\"title\":"
-        send_content1="编译成功！正在上传固件到NAS..."
-        send_content2="编译成功！固件成功上传到NAS。"
-        send_content3="编译失败！无固件生成，请检查源码。"
+        send_content1="【${model}】编译成功！正在上传固件到NAS..."
+        send_content2="【${model}】编译成功！固件成功上传到NAS。"
+        send_content3="【${model}】编译失败！无固件生成，请检查源码。"
+        markdown_splitline="\n\n---\n\n"
         nowtime=`date "+%Y-%m-%d %H:%M:%S"`
-        send_title="**${model}** ${send_content}"
         echo "::warning file=zz-nas.com::All Released Files Uploaded to ZZ-NAS"
-        eval "$send_dingding \"【${model}】${send_content1}\",\"text\":\"${nowtime}\n【${model}】<font color=#6A65FF>${send_content1}</font>\"}}'"
-        eval "$send_dingding \"【${model}】${send_content2}\",\"text\":\"${nowtime}\n【${model}】<font color=#92D050>${send_content2}</font>\"}}'"
-        eval "$send_dingding \"【${model}】${send_content3}\",\"text\":\"${nowtime}\n【${model}】<font color=#FF6666>${send_content3}</font>\"}}'"
+        eval "$send_dingding \"${send_content1}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#6A65FF>${send_content1}</font>\"}}'"
+        eval "$send_dingding \"${send_content2}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#92D050>${send_content2}</font>\"}}'"
+        eval "$send_dingding \"${send_content3}\",\"text\":\"${nowtime} $markdown_splitline #### <font color=#FF6666>${send_content3}</font>\"}}'"
 
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
