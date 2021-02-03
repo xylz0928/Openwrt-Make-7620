@@ -39,9 +39,9 @@ env:
   ftp_username: ${{ secrets.FTP_USERNAME }}
   ftp_psw: ${{ secrets.FTP_PSW }}
   ftp_ip: ${{ secrets.FTP_IP }}
-  TargetPath: OpenwrtImgs/mt7620/K2
-  upload_file_1: openwrt-ramips-mt7620-phicomm_psg1218a-initramfs-kernel.bin
-  upload_file_2: openwrt-ramips-mt7620-phicomm_psg1218a-squashfs-sysupgrade.bin
+  TargetPath: OpenwrtImgs/mt7620/K1
+  upload_file_1: openwrt-ramips-mt7620-phicomm_psg1208-initramfs-kernel.bin
+  upload_file_2: openwrt-ramips-mt7620-phicomm_psg1208-squashfs-sysupgrade.bin
   upload_file_3: sha256sums
   whkey: ${{ secrets.WEBHOOK }}
 
